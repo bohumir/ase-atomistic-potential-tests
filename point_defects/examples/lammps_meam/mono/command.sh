@@ -1,5 +1,7 @@
-python mono.py Al fcc > log.Al.fcc
-python mono.py Si dia > log.Si.dia
-python mono.py Cu fcc > log.Cu.fcc
-python mono.py Fe bcc > log.Fe.bcc
-python mono.py Mg hcp > log.Mg.hcp
+PATH=$PATH:../../..
+
+mono.py Al fcc > log.Al.fcc
+mono.py Si dia > log.Si.dia
+mono.py Cu fcc > log.Cu.fcc
+mono.py Fe bcc > log.Fe.bcc
+mono.py Mg hcp > log.Mg.hcp

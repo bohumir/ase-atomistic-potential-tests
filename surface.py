@@ -173,7 +173,7 @@ def add_adsorbate(slab, adsorbate, height, position=(0, 0), offset=None,
         a = info['top layer atom index']
     except KeyError:
         a = slab.positions[:, 2].argmax()
-        info['top layer atom index']= a
+        info['top layer atom index'] = a
     z = slab.positions[a, 2] + height
 
     # Move adsorbate into position
@@ -261,8 +261,8 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
         elif surf == 'dia111':
             cell = (sqrt(0.5), sqrt(0.375), 1 / sqrt(3) / 2)
             if not orthogonal:
-                positions[-1::-6, ..., :3] += (0.0 , 0.0, 0.5)
-                positions[-2::-6, ..., :2] += (0.0 , 0.0)
+                positions[-1::-6, ..., :3] += (0.0, 0.0, 0.5)
+                positions[-2::-6, ..., :2] += (0.0, 0.0)
                 positions[-3::-6, ..., :3] += (-1.0 / 3, 2.0 / 3, 0.5)
                 positions[-4::-6, ..., :2] += (-1.0 / 3, 2.0 / 3)
                 positions[-5::-6, ..., :3] += (1.0 / 3, 1.0 / 3, 0.5)
@@ -279,10 +279,11 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
         elif surf == 'hcp10m10':
             cell = (1.0, 0.5 * c / a, sqrt(0.75))
             if orthogonal:
-                positions[ 1::2, ..., 0] += .5
-                positions[ :, 1::2, :, 2] += 2.0 / 3
+                positions[1::2, ..., 0] += .5
+                positions[:, 1::2, :, 2] += 2.0 / 3
             else:
-                raise ValueError(("Can't make non-orthogonal " + surf + " yet."))
+                msg = "Can't make non-orthogonal " + surf + " yet."
+                raise ValueError((msg))
         elif surf == 'bcc110':
             cell = (1.0, sqrt(0.5), sqrt(0.5))
             if orthogonal:

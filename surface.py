@@ -278,7 +278,6 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
                           'hcp': (2.0 / 3, 2.0 / 3)})
         elif surf == 'hcp10m10':
             cell = (1.0, 0.5 * c / a, sqrt(0.75))
-            print "c: ", c, "a:", a
             if orthogonal:
                 positions[ 1::2, ..., 0] += .5
                 positions[ :, 1::2, :, 2] += 2.0 / 3

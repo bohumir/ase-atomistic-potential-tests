@@ -1,0 +1,14 @@
+You need to install:
+  ASE (https://wiki.fysik.dtu.dk/ase/)
+  LAMMPS 1Jul11 or later, with MEAM package
+
+For ASE to find LAMMPS, you need to export LAMMPS_COMMAND variable, follow
+  https://wiki.fysik.dtu.dk/ase/ase/calculators/lammps.html
+
+I suggest to overwrite
+  ase/calculators/lammps.py
+and
+  ase/lattice/surface.py
+with "lammps.py" and "surface.py" provided here.
+
+Then change to any example subdirectory and run command.sh there.

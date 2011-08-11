@@ -16,27 +16,13 @@ HCPO = HCPOFactory()
 
 argc = len(sys.argv)
 if argc < 4:
-    print 'usage:', sys.argv[0], 'Al fcc octa/tetr/dump'
+    print 'usage:', sys.argv[0], 'Al lp fcc octa/tetr/dump'
     sys.exit(1)
 
 el1=sys.argv[1]
-str=sys.argv[2]
-dfc=sys.argv[3]
-
-def get_meam_lp_esub(infile="meamf"):
-    from ase.parallel import paropen
-    f = paropen(infile, 'r')
-    while True:
-        line = f.readline()
-        if not line:
-            break
-        if el1+"S" in line:
-            line = f.readline()
-            # lp is sixth on the second line, esub seventh 
-            lp = float(line.split()[5])
-            esub = float(line.split()[6])
-    f.close()
-    return lp, esub
+lp=float(sys.argv[2])
+str=sys.argv[3]
+dfc=sys.argv[4]
 
 pair_style = "meam"
 meamf = "meamf"
@@ -50,12 +36,9 @@ files = [ meamf, meamp ]
 from ase.calculators.lammps import LAMMPS
 calc = LAMMPS(parameters=parameters, files=files, specorder=subspec)
 
-if str != 'hcp':
-    lp,esub = get_meam_lp_esub(infile=meamf)
-else:
+if str == 'hcp':
     lp = 3.2027793
     catoi = 0.991824332358
-    esub = -1.51011430257
 
 if str == "fcc" :
     from ase.lattice.cubic import FaceCenteredCubic
@@ -82,7 +65,7 @@ else :
 
 atoms.set_calculator(calc)
 
-print "meamfvals:", el1, lp, esub
+print "meamfvals:", el1, lp
 v1=atoms.get_volume()
 print "v1:", v1
 n1=atoms.get_number_of_atoms()

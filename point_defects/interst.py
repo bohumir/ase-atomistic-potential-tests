@@ -16,29 +16,25 @@ HCPO = HCPOFactory()
 
 argc = len(sys.argv)
 if argc < 4:
-    print 'usage:', sys.argv[0], 'Al lp fcc octa/tetr/dump'
+    print 'usage:', sys.argv[0], 'Al fcc octa/tetr/dump lp [catoi]'
     sys.exit(1)
 
-el1=sys.argv[1]
-lp=float(sys.argv[2])
-str=sys.argv[3]
-dfc=sys.argv[4]
-
-pair_style = "meam"
-meamf = "meamf"
-meamp = "meam.alsimgcufe"
-subspec = [ el1 ]
-pair_coeff = [ "* * meamf AlS SiS MgS CuS FeS "\
-                   + meamp + " " + subspec[0] + "S " ]
-parameters = { "pair_style" : pair_style, "pair_coeff" : pair_coeff }
-files = [ meamf, meamp ]
+el1 = sys.argv[1]
+str = sys.argv[2]
+dfc = sys.argv[3]
+lp = float(sys.argv[4])
+if str == 'hcp':
+    if argc < 5:
+        print 'usage:', sys.argv[0], 'Mg hcp octa/tetr/dump lp catoi'    
+    else:
+        lp = float(sys.argv[5])
 
 from ase.calculators.lammps import LAMMPS
-calc = LAMMPS(parameters=parameters, files=files, specorder=subspec)
 
-if str == 'hcp':
-    lp = 3.2027793
-    catoi = 0.991824332358
+import model
+calc = LAMMPS(parameters=model.parameters, files=model.files)
+model.parameters["pair_coeff"][0]  += " " + el1 + model.ext
+
 
 if str == "fcc" :
     from ase.lattice.cubic import FaceCenteredCubic
@@ -65,7 +61,7 @@ else :
 
 atoms.set_calculator(calc)
 
-print "meamfvals:", el1, lp
+print el1, lp
 v1=atoms.get_volume()
 print "v1:", v1
 n1=atoms.get_number_of_atoms()
@@ -130,8 +126,8 @@ print "ene1nmpa:", ene1nm/np1
 #view(atoms)
 
 # minimize pos
-parameters["minimize"] = "1.0e-10 1.0e-10 10000 10000"
-#parameters["minimize"] = "1.0e-5 1.0e-5 10000 10000"
+model.parameters["minimize"] = "1.0e-10 1.0e-10 10000 10000"
+#model.parameters["minimize"] = "1.0e-5 1.0e-5 10000 10000"
 ene2m = atoms.get_potential_energy()
 print "ene2m:", ene2m
 print "ene2mpa:", ene2m/np1
@@ -140,9 +136,9 @@ atoms3 = calc.atoms
 
 # minimize pos and cell
 if str == "hcp":
-    parameters["fix"] = "1 all box/relax aniso 0 couple xy vmax 0.000001"
+    model.parameters["fix"] = "1 all box/relax aniso 0 couple xy vmax 0.000001"
 else:
-    parameters["fix"] = "1 all box/relax aniso 0 couple xyz vmax 0.000001"
+    model.parameters["fix"] = "1 all box/relax aniso 0 couple xyz vmax 0.000001"
 
 atoms3.set_calculator(calc)
 ene3v = atoms3.get_potential_energy()

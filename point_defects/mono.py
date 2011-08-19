@@ -16,46 +16,23 @@ HCPO = HCPOFactory()
 
 argc = len(sys.argv)
 if argc < 3:
-    print 'usage:', sys.argv[0], 'Al fcc'
+    print 'usage:', sys.argv[0], 'Al fcc lp [catoi]'
     sys.exit(1)
 
 el1=sys.argv[1]
 str=sys.argv[2]
-
-def get_meam_lp_esub(infile="meamf"):
-    from ase.parallel import paropen
-    f = paropen(infile, 'r')
-    while True:
-        line = f.readline()
-        if not line:
-            break
-        if el1+"S" in line:
-            line = f.readline()
-            # lp is sixth on the second line, esub seventh 
-            lp = float(line.split()[5])
-            esub = float(line.split()[6])
-    f.close()
-    return lp, esub
-
-pair_style = "meam"
-meamf = "meamf"
-meamp = "meam.alsimgcufe"
-subspec = [ el1 ]
-pair_coeff = [ "* * meamf AlS SiS MgS CuS FeS "\
-                   + meamp + " " + subspec[0] + "S " ]
-parameters = { "pair_style" : pair_style, "pair_coeff" : pair_coeff }
-files = [ meamf, meamp ]
+lp = float(sys.argv[3])
+if str == 'hcp':
+    if argc < 4:
+        print 'usage:', sys.argv[0], 'Mg hcp octa/tetr/dump lp catoi'    
+    else:
+        catoi = float(sys.argv[4])
 
 from ase.calculators.lammps import LAMMPS
-calc = LAMMPS(parameters=parameters, files=files, specorder=subspec,
-              keep_tmp_files=True, keep_alive=False)
 
-if str != 'hcp':
-    lp,esub = get_meam_lp_esub(infile=meamf)
-else:
-    lp = 3.2027793
-    catoi = 0.991824332358
-    esub = 1.51011430257
+import model
+calc = LAMMPS(parameters=model.parameters, files=model.files)
+model.parameters["pair_coeff"][0]  += " " + el1 + model.ext
 
 if str == "fcc" :
     from ase.lattice.cubic import FaceCenteredCubic
@@ -82,7 +59,7 @@ else :
 
 atoms.set_calculator(calc)
 
-print "meamfvals:", el1, lp, esub
+print "meamfvals:", el1, lp
 v1=atoms.get_volume()
 print "v1:", v1
 n1=atoms.get_number_of_atoms()
@@ -104,8 +81,8 @@ print "ene1nm:", ene1nm
 print "ene1nmpa:", ene1nm/nm1
 
 # minimize pos
-parameters["minimize"] = "1.0e-25 1.0e-25 10000 10000"
-#parameters["minimize"] = "1.0e-5 1.0e-5 10000 10000"
+model.parameters["minimize"] = "1.0e-25 1.0e-25 10000 10000"
+#model.parameters["minimize"] = "1.0e-5 1.0e-5 10000 10000"
 ene2m = atoms.get_potential_energy()
 print "ene2m:", ene2m
 print "ene2mpa:", ene2m/nm1
@@ -114,9 +91,9 @@ atoms3 = calc.atoms
 
 # minimize pos and cell
 if str == "hcp":
-    parameters["fix"] = "1 all box/relax aniso 0 couple xy vmax 0.000001"
+    model.parameters["fix"] = "1 all box/relax aniso 0 couple xy vmax 0.000001"
 else:
-    parameters["fix"] = "1 all box/relax aniso 0 couple xyz vmax 0.000001"
+    model.parameters["fix"] = "1 all box/relax aniso 0 couple xyz vmax 0.000001"
 
 atoms3.set_calculator(calc)
 ene3v = atoms3.get_potential_energy()

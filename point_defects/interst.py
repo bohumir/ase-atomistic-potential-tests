@@ -27,7 +27,7 @@ if str == 'hcp':
     if argc < 5:
         print 'usage:', sys.argv[0], 'Mg hcp octa/tetr/dump lp catoi'    
     else:
-        lp = float(sys.argv[5])
+        catoi = float(sys.argv[5])
 
 from ase.calculators.lammps import LAMMPS
 

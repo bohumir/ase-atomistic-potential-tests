@@ -1,5 +1,5 @@
-meamfvals1: Si 5.431 4.63
-meamfvals2: Fe 2.851 4.28
+bulk:  Si dia 5.431
+subst:  Fe 4.28
 v1: 4325.16990576
 n1: 216
 v1pa: 20.0239347489

@@ -1,5 +1,5 @@
-meamfvals1: Al 4.05 3.353
-meamfvals2: Si 5.431 4.63
+bulk:  Al fcc 4.05
+subst:  Si 4.63
 v1: 8303.765625
 n1: 500
 v1pa: 16.60753125

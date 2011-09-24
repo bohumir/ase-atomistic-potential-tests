@@ -1,5 +1,5 @@
-meamfvals1: Cu 3.62 3.54
-meamfvals2: Cu 3.62 3.54
+bulk:  Cu fcc 3.62
+subst:  Cu 3.54
 v1: 5929.741
 n1: 500
 v1pa: 11.859482

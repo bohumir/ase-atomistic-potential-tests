@@ -1,5 +1,5 @@
-meamfvals1: Cu 3.62 3.54
-meamfvals2: Mg 3.2027793 1.51011430257
+bulk:  Cu fcc 3.62
+subst:  Mg 1.51011430257
 v1: 5929.741
 n1: 500
 v1pa: 11.859482

@@ -1,5 +1,5 @@
-meamfvals1: Fe 2.851 4.28
-meamfvals2: Al 4.05 3.353
+bulk:  Fe bcc 2.851
+subst:  Al 3.353
 v1: 2896.68763137
 n1: 250
 v1pa: 11.5867505255

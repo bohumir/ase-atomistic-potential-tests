@@ -1,5 +1,5 @@
-meamfvals1: Si 5.431 4.63
-meamfvals2: Cu 3.62 3.54
+bulk:  Si dia 5.431
+subst:  Cu 3.54
 v1: 4325.16990576
 n1: 216
 v1pa: 20.0239347489

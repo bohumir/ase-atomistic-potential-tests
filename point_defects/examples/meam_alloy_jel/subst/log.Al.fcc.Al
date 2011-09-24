@@ -1,5 +1,5 @@
-meamfvals1: Al 4.05 3.353
-meamfvals2: Al 4.05 3.353
+bulk:  Al fcc 4.05
+subst:  Al 3.353
 v1: 8303.765625
 n1: 500
 v1pa: 16.60753125

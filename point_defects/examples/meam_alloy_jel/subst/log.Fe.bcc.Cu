@@ -1,5 +1,5 @@
-meamfvals1: Fe 2.851 4.28
-meamfvals2: Cu 3.62 3.54
+bulk:  Fe bcc 2.851
+subst:  Cu 3.54
 v1: 2896.68763137
 n1: 250
 v1pa: 11.5867505255

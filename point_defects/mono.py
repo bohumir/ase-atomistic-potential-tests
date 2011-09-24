@@ -31,8 +31,9 @@ if str == 'hcp':
 from ase.calculators.lammps import LAMMPS
 
 import model
+from model import pick_elements
 calc = LAMMPS(parameters=model.parameters, files=model.files)
-model.parameters["pair_coeff"][0]  += " " + el1 + model.ext
+pick_elements(model, [el1])
 
 if str == "fcc" :
     from ase.lattice.cubic import FaceCenteredCubic
@@ -59,7 +60,10 @@ else :
 
 atoms.set_calculator(calc)
 
-print "meamfvals:", el1, lp
+print "el:", el1, "str:", str, "lp:", lp
+if str == "hcp":
+    print "catoi:", catoi
+
 v1=atoms.get_volume()
 print "v1:", v1
 n1=atoms.get_number_of_atoms()

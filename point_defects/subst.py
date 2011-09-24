@@ -16,59 +16,32 @@ HCPO = HCPOFactory()
 
 argc = len(sys.argv)
 if argc < 4:
-    print 'usage:', sys.argv[0], 'Al fcc Si'
+    print 'usage:', sys.argv[0], 'Al fcc lp Si EcohSi'
     sys.exit(1)
 
-el1=sys.argv[1]
-str=sys.argv[2]
-el2=sys.argv[3]
+el1 = sys.argv[1]
+str = sys.argv[2]
+lp1 = float(sys.argv[3])
+el2 = sys.argv[4]
+esub2 = float(sys.argv[5])
+if str == 'hcp':
+    if argc < 7:
+        print 'usage:', sys.argv[0], 'Mg hcp lp Si EcohSi catoi'
+    else:
+        catoi = float(sys.argv[6])
 
-def get_meam_lp_esub(elx, infile="meamf"):
-    from ase.parallel import paropen
-    f = paropen(infile, 'r')
-    while True:
-        line = f.readline()
-        if not line:
-            break
-        if elx+"S" in line:
-            line = f.readline()
-            # lp is sixth on the second line, esub seventh 
-            lp = float(line.split()[5])
-            esub = float(line.split()[6])
-    f.close()
-    return lp, esub
-
-pair_style = "meam"
-meamf = "meamf"
-meamp = "meam.alsimgcufe"
-subspec = [ el1, el2 ]
-pair_coeff = [ "* * meamf AlS SiS MgS CuS FeS "\
-                   + meamp + " " + subspec[0] + "S " + subspec [1] + "S"]
-parameters = { "pair_style" : pair_style, "pair_coeff" : pair_coeff }
-files = [ meamf, meamp ]
+import model
+from model import pick_elements
+species = [el1, el2]
+pick_elements(model, species)
 
 from ase.calculators.lammps import LAMMPS
-calc = LAMMPS(parameters=parameters, files=files, specorder=subspec)
+calc = LAMMPS(parameters=model.parameters, files=model.files, specorder=species)
 
-lpmg = 3.2027793
-catoimg = 0.991824332358
-esubmg = 1.51011430257
-
-if el1 != 'Mg':
-    lp1,esub1 = get_meam_lp_esub(el1,infile=meamf)
-else:
-    lp1 = lpmg
-    catoi = catoimg
-    esub1 = esubmg
-
-if el2 != 'Mg':
-    lp2,esub2 = get_meam_lp_esub(el2,infile=meamf)
-else:
-    lp2 = lpmg
-    esub2 = esubmg
-
-print "meamfvals1:", el1, lp1, esub1
-print "meamfvals2:", el2, lp2, esub2
+print "bulk: ", el1, str, lp1
+if str == "hcp":
+    print "catoi:", catoi
+print "subst: ", el2, esub2
 
 if str == "fcc" :
     from ase.lattice.cubic import FaceCenteredCubic
@@ -120,8 +93,8 @@ print "ene1nm:", ene1nm
 print "ene1nmf:", ene1nm - subtr
 
 # minimize pos
-parameters["minimize"] = "1.0e-25 1.0e-25 10000 10000"
-#parameters["minimize"] = "1.0e-5 1.0e-5 10000 10000"
+model.parameters["minimize"] = "1.0e-25 1.0e-25 10000 10000"
+#model.parameters["minimize"] = "1.0e-5 1.0e-5 10000 10000"
 ene2m = atoms.get_potential_energy()
 print "ene2m:", ene2m
 print "ene2mf:", ene2m - subtr
@@ -130,9 +103,9 @@ atoms3 = calc.atoms
 
 # minimize pos and cell
 if str == "hcp":
-    parameters["fix"] = "1 all box/relax aniso 0 couple xy vmax 0.000001"
+    model.parameters["fix"] = "1 all box/relax aniso 0 couple xy vmax 0.000001"
 else:
-    parameters["fix"] = "1 all box/relax aniso 0 couple xyz vmax 0.000001"
+    model.parameters["fix"] = "1 all box/relax aniso 0 couple xyz vmax 0.000001"
 
 atoms3.set_calculator(calc)
 ene3v = atoms3.get_potential_energy()

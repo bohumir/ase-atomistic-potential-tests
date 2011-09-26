@@ -4,62 +4,48 @@ import sys
 import numpy as np
 
 argc = len(sys.argv)
-if argc < 8:
-    print 'usage:', sys.argv[0], 'Al fcc 111 rep1 rep2 rep3 vac'
+if argc < 10:
+    print 'usage:', sys.argv[0], 'Al fcc lp EcohAl 111 rep1 rep2 rep3 vac'
     sys.exit(1)
 
-el1=sys.argv[1]
-struct=sys.argv[2]
-surf=sys.argv[3]
-rep1=float(sys.argv[4])
-rep2=float(sys.argv[5])
-rep3=float(sys.argv[6])
-mysize=(rep1,rep2,rep3)
-vac=float(sys.argv[7])
-
-
-def get_meam_lp_esub(infile="meamf"):
-    from ase.parallel import paropen
-    f = paropen(infile, 'r')
-    while True:
-        line = f.readline()
-        if not line:
-            break
-        if el1+"S" in line:
-            line = f.readline()
-            # lp is sixth on the second line, esub seventh 
-            lp = float(line.split()[5])
-            esub = float(line.split()[6])
-    f.close()
-    return lp, esub
-
-pair_style = "meam"
-meamf = "meamf"
-meamp = "meam.alsimgcufe"
-subspec = [ el1 ]
-pair_coeff = [ "* * meamf AlS SiS MgS CuS FeS "\
-                   + meamp + " " + subspec[0] + "S " ]
-parameters = { "pair_style" : pair_style, "pair_coeff" : pair_coeff }
-files = [ meamf, meamp ]
-
-from ase.calculators.lammps import LAMMPS
-calc = LAMMPS(parameters=parameters, files=files, specorder=subspec)
-
-if el1 != 'Mg':
-    lp,esub = get_meam_lp_esub(infile=meamf)
-else:
-    lp = 3.2027793
-    catoi = 0.991824332358
-    esub = 1.51011430257
-
-from ase.lattice.surface import *
+el1 = sys.argv.pop(1)
+struct = sys.argv.pop(1)
+lp = float(sys.argv.pop(1))
+if struct == 'hcp':
+    if argc < 11:
+        print >> sys.stderr, 'usage:',\
+            sys.argv[0], 'Mg hcp lp catoi EcohMg 0001 rep1 rep2 rep3 vac'    
+        sys.exit(1)
+    else:
+        catoi = float(sys.argv.pop(1))
+esub = float(sys.argv.pop(1))
+surf = sys.argv.pop(1)
+rep1 = float(sys.argv.pop(1))
+rep2 = float(sys.argv.pop(1))
+rep3 = float(sys.argv.pop(1))
+mysize = (rep1,rep2,rep3)
+vac = float(sys.argv.pop(1))
 
 print "el1: ", el1
 print "struct: ", struct
+print "lp: ", lp
+if struct == 'hcp':
+    print "catoi: ", catoi
+print "ecoh: ", esub
 print "surf: ", surf
 print "size: ", mysize
-print "lp: ", lp
-print "vac: ", vac
+print "vacuum: ", vac
+
+import model
+from model import pick_elements
+species = [el1]
+pick_elements(model, species)
+
+from ase.calculators.lammps import LAMMPS
+calc = LAMMPS(parameters=model.parameters, files=model.files)
+
+from ase.lattice.surface import *
+
 if surf == "10m10":
     myorth = True
 else:
@@ -85,7 +71,7 @@ ene1pa=ene1/n1
 print "n1:", n1
 print "ene1:", ene1
 print "ene1pa:", ene1pa
-print "ecoh_meam:", -esub
+print "esub:", -esub
 
 cell1=atoms.get_cell()
 sarea1=np.linalg.norm(np.cross(cell1[0],cell1[1]))
@@ -96,7 +82,7 @@ print "esurff1: ", esurff1, " mJ/m^2"
 # minimize pos
 #
 print "relaxed"
-parameters["minimize"] = "1.0e-25 1.0e-25 10000 10000"
+model.parameters["minimize"] = "1.0e-25 1.0e-25 10000 10000"
 ene2m = atoms.get_potential_energy()
 ene2mpa = ene2m/n1
 print "ene2m:", ene2m

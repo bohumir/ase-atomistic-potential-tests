@@ -1,19 +1,31 @@
 PATH=$PATH:../..
+PYTHONPATH=$PYTHONPATH:.
 
 els="Al Si Mg Cu Fe"
 r1="1"; r2nm="1"; r2m="2"; r3="7"; 
 vac="4"
 
 for el in $els; do
-
-    if [ "$el" == "Al" ] || [ "$el" == "Cu" ]; then
+    if [ "$el" == "Al" ]; then
         str="fcc"
+        lp="4.05"
+        ecoh="3.353"
     elif [ "$el" == "Si" ]; then
         str="dia"
+        lp="5.431"
+        ecoh="4.63"
     elif [ "$el" == "Mg" ]; then
         str="hcp"
+        lp="3.2027793 0.991824332358"
+        ecoh="1.51011430257"
+    elif [ "$el" == "Cu" ]; then
+        str="fcc"
+        lp="3.62"
+        ecoh="3.54"
     elif [ "$el" == "Fe" ]; then
         str="bcc"
+        lp="2.851"
+        ecoh="4.28"
     fi
 
     if [ "$str" == "fcc" ]; then
@@ -33,7 +45,7 @@ for el in $els; do
         else
             r2a=$r2nm
         fi
-        surf.py $el $str $surf $r1 $r2a $r3 $vac > log.$el.$str.$surf.$r1.$r2a.$r3.$vac
+        surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3 $vac > log.$el.$str.$surf.$r1.$r2a.$r3.$vac
     done
 
 done

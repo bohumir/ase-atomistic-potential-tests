@@ -21,15 +21,13 @@ else:
     esub1 =  float(sys.argv[4])
     esub2 =  float(sys.argv[5])
 
+import model
+from model import pick_elements
+species = [el1, el2]
+pick_elements(model, species)
+
 from ase.calculators.lammps import LAMMPS
-pair_style = "meam"
-meamf = "meamf"
-meamp = "meam.alsimgcufe"
-subspec = [ el1, el2 ]
-pair_coeff = [ "* * meamf AlS SiS MgS CuS FeS " + meamp + " " + subspec[0] + "S " + subspec[1] + "S" ]
-parameters = { "pair_style" : pair_style, "pair_coeff" : pair_coeff }
-files = [ meamf, meamp ]
-calc = LAMMPS(parameters=parameters, files=files, specorder=subspec)
+calc = LAMMPS(parameters=model.parameters, files=model.files, specorder=species)
 
 if str == "fcc" or str == "nacl" or str == "cu2mg" or str == "mgcu2" or str == "zns" or str == "caf2" or str == "f2ca" or str == "alfe3" or str == "fe3al":
     primc = np.array([[0.0, 0.5, 0.5],
@@ -39,7 +37,7 @@ if str == "fcc" or str == "nacl" or str == "cu2mg" or str == "mgcu2" or str == "
         elems = [el1]
         poss = [(0, 0, 0)];
     elif str == "nacl":
-        elems = [el1, el2]
+        elems = [el1,el2]
         poss = [(0, 0, 0),
                 (0.5, 0.5, 0.5)]
     elif str == "cu2mg":
@@ -154,8 +152,8 @@ mys = crystal(elems,
               cell=lat0)
 
 mys.set_calculator(calc)
-parameters["minimize"] = "1.0e-25 1.0e-25 100000 100000"
-parameters["fix"] = "1 all box/relax aniso 0 couple xyz vmax  0.00001"
+model.parameters["minimize"] = "1.0e-25 1.0e-25 100000 100000"
+model.parameters["fix"] = "1 all box/relax aniso 0 couple xyz vmax  0.00001"
 
 ene0 = mys.get_potential_energy()
 atomsmin=calc.atoms

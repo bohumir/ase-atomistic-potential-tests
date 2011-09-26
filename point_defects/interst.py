@@ -25,16 +25,21 @@ dfc = sys.argv[3]
 lp = float(sys.argv[4])
 if str == 'hcp':
     if argc < 5:
-        print 'usage:', sys.argv[0], 'Mg hcp octa/tetr/dump lp catoi'    
+        print 'usage:', sys.argv[0], 'Mg hcp octa/tetr/dump lp catoi'
+        sys.exit(1)
     else:
         catoi = float(sys.argv[5])
 
-from ase.calculators.lammps import LAMMPS
+print "bulk: ", el1, str, lp
+print "interst: ", el1
 
+species = [el1]
 import model
-calc = LAMMPS(parameters=model.parameters, files=model.files)
-model.parameters["pair_coeff"][0]  += " " + el1 + model.ext
+from model import pick_elements
+pick_elements(model, species)
 
+from ase.calculators.lammps import LAMMPS
+calc = LAMMPS(parameters=model.parameters, files=model.files)
 
 if str == "fcc" :
     from ase.lattice.cubic import FaceCenteredCubic
@@ -61,7 +66,6 @@ else :
 
 atoms.set_calculator(calc)
 
-print el1, lp
 v1=atoms.get_volume()
 print "v1:", v1
 n1=atoms.get_number_of_atoms()

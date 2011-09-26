@@ -27,12 +27,13 @@ esub2 = float(sys.argv[5])
 if str == 'hcp':
     if argc < 7:
         print 'usage:', sys.argv[0], 'Mg hcp lp Si EcohSi catoi'
+        sys.exit(1)
     else:
         catoi = float(sys.argv[6])
 
+species = [el1, el2]
 import model
 from model import pick_elements
-species = [el1, el2]
 pick_elements(model, species)
 
 from ase.calculators.lammps import LAMMPS

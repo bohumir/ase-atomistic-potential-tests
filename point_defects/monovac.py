@@ -25,15 +25,17 @@ lp = float(sys.argv[3])
 if str == 'hcp':
     if argc < 4:
         print 'usage:', sys.argv[0], 'Mg hcp octa/tetr/dump lp catoi'    
+        sys.exit(1)
     else:
         catoi = float(sys.argv[4])
 
-from ase.calculators.lammps import LAMMPS
-
+species = [el1]
 import model
 from model import pick_elements
-calc = LAMMPS(parameters=model.parameters, files=model.files)
-pick_elements(model, [el1])
+pick_elements(model, species)
+
+from ase.calculators.lammps import LAMMPS
+calc = LAMMPS(parameters=model.parameters, files=model.files, specorder=species)
 
 if str == "fcc" :
     from ase.lattice.cubic import FaceCenteredCubic

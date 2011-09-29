@@ -13,16 +13,16 @@ function esub {
 
 function structures {
     pair=$1
-    if   [ $pair == "Al:Si" ]; then echo "cu3au f2ca cscl"
-    elif [ $pair == "Al:Mg" ]; then echo "cu3au aucu3 cscl"
-    elif [ $pair == "Al:Cu" ]; then echo "f2ca aucu3 alfe3 sicr3 cu3au cscl"
-    elif [ $pair == "Al:Fe" ]; then echo "cscl alfe3 aucu3 sicr3 mgcu2 cr3si cu3au fe3al f2ca"
-    elif [ $pair == "Si:Mg" ]; then echo "caf2 aucu3 sicr3"
-    elif [ $pair == "Si:Cu" ]; then echo "aucu3 caf2"
-    elif [ $pair == "Si:Fe" ]; then echo "cscl alfe3 sicr3 aucu3 f2ca caf2"
-    elif [ $pair == "Mg:Cu" ]; then echo "mgcu2 cscl aucu3 alfe3"
-    elif [ $pair == "Mg:Fe" ]; then echo "mgcu2 aucu3 cu3au cscl"
-    elif [ $pair == "Cu:Fe" ]; then echo "aucu3 sicr3 fe3al cu3au cscl"
+    if   [ $pair == "Al:Si" ]; then echo "nacl cu3au f2ca cscl"
+    elif [ $pair == "Al:Mg" ]; then echo "nacl cu3au aucu3 cscl"
+    elif [ $pair == "Al:Cu" ]; then echo "nacl f2ca aucu3 alfe3 sicr3 cu3au cscl"
+    elif [ $pair == "Al:Fe" ]; then echo "nacl cscl alfe3 aucu3 sicr3 mgcu2 cr3si cu3au fe3al f2ca"
+    elif [ $pair == "Si:Mg" ]; then echo "nacl caf2 aucu3 sicr3"
+    elif [ $pair == "Si:Cu" ]; then echo "nacl aucu3 caf2"
+    elif [ $pair == "Si:Fe" ]; then echo "nacl cscl alfe3 sicr3 aucu3 f2ca caf2"
+    elif [ $pair == "Mg:Cu" ]; then echo "nacl mgcu2 cscl aucu3 alfe3"
+    elif [ $pair == "Mg:Fe" ]; then echo "nacl mgcu2 aucu3 cu3au cscl"
+    elif [ $pair == "Cu:Fe" ]; then echo "nacl aucu3 sicr3 fe3al cu3au cscl"
     fi
 }
 

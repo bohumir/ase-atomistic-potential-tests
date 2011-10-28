@@ -18,25 +18,25 @@ function esub {
 
 i="Al"; str="fcc"; lp="4.05"
 for j in Al Si Mg Cu Fe; do
-    subst.py $i $str $lp $j `esub $j` > log.$i.$str.$j
+    subst.py $i $str $lp $j `esub $j` > results/log.$i.$str.$j
 done
 
 i="Si"; str="dia"; lp="5.431"
 for j in Al Si Mg Cu Fe; do
-    subst.py $i $str $lp $j `esub $j` > log.$i.$str.$j
+    subst.py $i $str $lp $j `esub $j` > results/log.$i.$str.$j
 done
 
 i="Mg"; str="hcp"; lp="3.2027793"; catoi="0.991824332358"
 for j in Al Si Mg Cu Fe; do
-    subst.py $i $str $lp $j `esub $j` $catoi > log.$i.$str.$j
+    subst.py $i $str $lp $j `esub $j` $catoi > results/log.$i.$str.$j
 done
 
 i="Cu"; str="fcc"; lp="3.62"
 for j in Al Si Mg Cu Fe; do
-    subst.py $i $str $lp $j `esub $j` > log.$i.$str.$j
+    subst.py $i $str $lp $j `esub $j` > results/log.$i.$str.$j
 done
 
 i="Fe"; str="bcc"; lp="2.851"
 for j in Al Si Mg Cu Fe; do
-    subst.py $i $str $lp $j `esub $j` > log.$i.$str.$j
+    subst.py $i $str $lp $j `esub $j` > results/log.$i.$str.$j
 done

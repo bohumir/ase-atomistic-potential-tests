@@ -45,7 +45,7 @@ for el in $els; do
         else
             r2a=$r2nm
         fi
-        surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3 $vac > log.$el.$str.$surf.$r1.$r2a.$r3.$vac
+        surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3 $vac > results/log.$el.$str.$surf.$r1.$r2a.$r3.$vac
     done
 
 done

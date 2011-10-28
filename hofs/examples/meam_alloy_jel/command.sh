@@ -13,7 +13,7 @@ function esub {
 
 function structures {
     pair=$1
-    if   [ $pair == "Al:Si" ]; then echo "nacl cu3au f2ca cscl"
+    if   [ $pair == "Al:Si" ]; then echo "nacl nacl cu3au f2ca cscl"
     elif [ $pair == "Al:Mg" ]; then echo "nacl cu3au aucu3 cscl"
     elif [ $pair == "Al:Cu" ]; then echo "nacl f2ca aucu3 alfe3 sicr3 cu3au cscl"
     elif [ $pair == "Al:Fe" ]; then echo "nacl cscl alfe3 aucu3 sicr3 mgcu2 cr3si cu3au fe3al f2ca"

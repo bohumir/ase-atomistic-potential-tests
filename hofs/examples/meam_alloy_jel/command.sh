@@ -38,7 +38,7 @@ for ii in $pairs; do
 
     structs=`structures $ii`
     for jj in $structs; do
-        hof.py $el1 $el2 $jj $e1 $e2 &> ${el1}${el2}-${jj}.log
+        hof.py $el1 $el2 $jj $e1 $e2 &> results/${el1}${el2}-${jj}.log
     done
 
 done

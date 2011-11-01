@@ -3,7 +3,7 @@ PYTHONPATH=$PYTHONPATH:.
 
 # directory with optimal lattice paramters for each compound
 # 
-lpd="../../../hofs/examples/meam_alloy_jel/results"
+lpd="../../../heats_of_form/examples/meam_alloy_jel/results"
 
 function structures {
     pair=$1

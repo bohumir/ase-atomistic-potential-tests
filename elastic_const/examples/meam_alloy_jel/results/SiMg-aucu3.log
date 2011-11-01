@@ -1,25 +1,10 @@
-el1: Si el2 Mg str aucu3 lp: 4.3584461807
+el1: Si el2: Mg str: aucu3 lp: 4.3584461807
 epa0: -2.266570025
 vpa0: 20.6983187815 
 
 Volumespa: [19.48109205057602, 20.083558015348462, 20.698318781477109, 21.325498538874655, 21.965221477453746]
 Energiespa: [-2.252165275, -2.263100625, -2.266570025, -2.263347125, -2.2541457]
-vpao: 20.6982724093 A^3
-epaoe: -2.26656957787 eV
-B1: 57.4994549283 GPa
-lpopt1: 4.35844292584
-ene1: -9.0662073
-epaoa: -2.266570025
-del: 1.82e-05
-c44: 23.4799083093 GPa
-
-ene3: -9.0662558
-epaoa: -2.266570025
-del: 6.07499999994e-06
-c44dy: 23.5121609304 GPa
-
-ene2: -9.066257600
-epaoa: -2.266570025
-del: 5.62500000001e-06
-(c11-c12)/2: 21.7705193803 GPa
-
+Traceback (most recent call last):
+  File "./../../elast.py", line 163, in <module>
+    lpopt1 = pow(vpao * mys.get_number_of_atoms() / vpc, 1. / 3.)
+NameError: name 'vpc' is not defined

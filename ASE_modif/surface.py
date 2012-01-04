@@ -20,16 +20,6 @@ def fcc100(symbol, size, a=None, vacuum=None):
     Supported special adsorption sites: 'ontop', 'bridge', 'hollow'."""
     return surface(symbol, 'fcc', '100', size, a, None, vacuum)
 
-def dia100(symbol, size, a=None, vacuum=None):
-    """DIA(100) surface."""
- 
-    return surface(symbol, 'dia', '100', size, a, None, vacuum)
-
-def dia111(symbol, size, a=None, vacuum=None):
-    """DIA(111) surface."""
- 
-    return surface(symbol, 'dia', '111', size, a, None, vacuum)
-
 def fcc110(symbol, size, a=None, vacuum=None):
     """FCC(110) surface.
  
@@ -81,12 +71,28 @@ def hcp0001(symbol, size, a=None, c=None, vacuum=None, orthogonal=False):
     return surface(symbol, 'hcp', '0001', size, a, c, vacuum, orthogonal)
 
     
-def hcp10m10(symbol, size, a=None, c=None, vacuum=None, orthogonal=False):
+def hcp10m10(symbol, size, a=None, c=None, vacuum=None):
     """HCP(10m10) surface.
+    
+    Supported special adsorption sites: 'ontop'.
+    
+    Works only for size=(i,j,k) with j even."""
+    return surface(symbol, 'hcp', '10m10', size, a, c, vacuum)
+
+def diamond100(symbol, size, a=None, vacuum=None):
+    """DIAMOND(100) surface.
+
+    Supported special adsorption sites: 'ontop'."""
+    return surface(symbol, 'diamond', '100', size, a, None, vacuum)
+
+def diamond111(symbol, size, a=None, vacuum=None, orthogonal=False):
+    """DIAMOND(111) surface.
  
-    Use *orthogonal=True* to get an orthogonal unit cell - works only
-    for size=(i,j,k) with j even."""
-    return surface(symbol, 'hcp', '10m10', size, a, c, vacuum, orthogonal)
+    Supported special adsorption sites: 'ontop'."""
+
+    if orthogonal:
+        raise NotImplementedError("Can't do orthogonal cell yet!")
+    return surface(symbol, 'diamond', '111', size, a, None, vacuum, orthogonal)
 
     
 def add_adsorbate(slab, adsorbate, height, position=(0, 0), offset=None,
@@ -191,14 +197,14 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
     Z = atomic_numbers[symbol]
 
     if a is None:
-        sym = reference_states[Z]['symmetry'].lower()
+        sym = reference_states[Z]['symmetry']
         if sym != structure:
             raise ValueError("Can't guess lattice constant for %s-%s!" %
                              (structure, symbol))
         a = reference_states[Z]['a']
 
     if structure == 'hcp' and c is None:
-        if reference_states[Z]['symmetry'].lower() == 'hcp':
+        if reference_states[Z]['symmetry'] == 'hcp':
             c = reference_states[Z]['c/a'] * a
         else:
             c = sqrt(8 / 3.0) * a
@@ -225,7 +231,7 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
         cell = (sqrt(0.5), sqrt(0.5), 0.5)
         positions[-2::-2, ..., :2] += 0.5
         sites.update({'hollow': (0.5, 0.5), 'bridge': (0.5, 0)})
-    elif surf == 'dia100':
+    elif surf == 'diamond100':
         cell = (sqrt(0.5), sqrt(0.5), 0.5 / 2)
         positions[-4::-4, ..., :2] += (0.5, 0.5)
         positions[-3::-4, ..., :2] += (0.0, 0.5)
@@ -258,15 +264,15 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
                 positions[-3::-3, ..., :2] += (1.0 / 3, 1.0 / 3)
             sites.update({'bridge': (0.5, 0), 'fcc': (1.0 / 3, 1.0 / 3),
                           'hcp': (2.0 / 3, 2.0 / 3)})
-        elif surf == 'dia111':
+        elif surf == 'diamond111':
             cell = (sqrt(0.5), sqrt(0.375), 1 / sqrt(3) / 2)
-            if not orthogonal:
-                positions[-1::-6, ..., :3] += (0.0, 0.0, 0.5)
-                positions[-2::-6, ..., :2] += (0.0, 0.0)
-                positions[-3::-6, ..., :3] += (-1.0 / 3, 2.0 / 3, 0.5)
-                positions[-4::-6, ..., :2] += (-1.0 / 3, 2.0 / 3)
-                positions[-5::-6, ..., :3] += (1.0 / 3, 1.0 / 3, 0.5)
-                positions[-6::-6, ..., :2] += (1.0 / 3, 1.0 / 3)
+            assert not orthogonal
+            positions[-1::-6, ..., :3] += (0.0, 0.0, 0.5)
+            positions[-2::-6, ..., :2] += (0.0, 0.0)
+            positions[-3::-6, ..., :3] += (-1.0 / 3, 2.0 / 3, 0.5)
+            positions[-4::-6, ..., :2] += (-1.0 / 3, 2.0 / 3)
+            positions[-5::-6, ..., :3] += (1.0 / 3, 1.0 / 3, 0.5)
+            positions[-6::-6, ..., :2] += (1.0 / 3, 1.0 / 3)
         elif surf == 'hcp0001':
             cell = (1.0, sqrt(0.75), 0.5 * c / a)
             if orthogonal:
@@ -278,12 +284,11 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
                           'hcp': (2.0 / 3, 2.0 / 3)})
         elif surf == 'hcp10m10':
             cell = (1.0, 0.5 * c / a, sqrt(0.75))
-            if orthogonal:
-                positions[1::2, ..., 0] += .5
-                positions[:, 1::2, :, 2] += 2.0 / 3
-            else:
-                msg = "Can't make non-orthogonal " + surf + " yet."
-                raise ValueError((msg))
+            assert orthogonal
+            positions[1::2, ..., 0] += 0.5
+            positions[:, 1::2, :, 2] += 2.0 / 3
+#            positions[-2::-2, ..., 0] += 0.5
+#            positions[:, ::2, :, 2] += 2.0 / 3
         elif surf == 'bcc110':
             cell = (1.0, sqrt(0.5), sqrt(0.5))
             if orthogonal:
@@ -306,6 +311,8 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
                 positions[-2::-3, ..., :2] += (-1.0 / 3, 2.0 / 3)
                 positions[-3::-3, ..., :2] += (1.0 / 3, 1.0 / 3)
             sites.update({'hollow': (1.0 / 3, 1.0 / 3)})
+        else:
+            2 / 0
             
         surface_cell = a * np.array([(cell[0], 0),
                                      (cell[0] / 2, cell[1])])

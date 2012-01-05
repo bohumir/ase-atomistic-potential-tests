@@ -11,7 +11,7 @@ for el in $els; do
         lp="4.05"
         ecoh="3.353"
     elif [ "$el" == "Si" ]; then
-        str="dia"
+        str="diamond"
         lp="5.431"
         ecoh="4.63"
     elif [ "$el" == "Mg" ]; then
@@ -30,7 +30,7 @@ for el in $els; do
 
     if [ "$str" == "fcc" ]; then
         surfs="111 110 100"
-    elif [ "$str" == "dia" ]; then
+    elif [ "$str" == "diamond" ]; then
         surfs="100 111"
     elif [ "$str" == "hcp" ]; then
         surfs="0001 10m10"

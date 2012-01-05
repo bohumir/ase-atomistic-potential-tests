@@ -56,7 +56,8 @@ if el1 != 'Mg':
 else:
     c=lp*sqrt(8./3)*catoi
     atoms=surface(el1, struct, surf, size=mysize, a=lp, c=c, vacuum=vac, orthogonal=myorth)
-    
+
+atoms.set_pbc((True, True, True))    
 
 atoms.set_calculator(calc)
 # eV/A^2 to mJ/m^2

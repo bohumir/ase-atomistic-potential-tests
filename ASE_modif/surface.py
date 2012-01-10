@@ -12,6 +12,7 @@ import numpy as np
 from ase.atom import Atom
 from ase.atoms import Atoms
 from ase.data import reference_states, atomic_numbers
+# from ase.lattice.general_surface import surface
 
 
 def fcc100(symbol, size, a=None, vacuum=None):
@@ -143,7 +144,7 @@ def add_adsorbate(slab, adsorbate, height, position=(0, 0), offset=None,
     """
     info = slab.adsorbate_info
     if 'cell' not in info:
-        info['cell'] = slab.get_cell()[:2,:2]
+        info['cell'] = slab.get_cell()[:2, :2]
 
     
     pos = np.array([0.0, 0.0])  # (x, y) part
@@ -285,10 +286,10 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
         elif surf == 'hcp10m10':
             cell = (1.0, 0.5 * c / a, sqrt(0.75))
             assert orthogonal
-            positions[1::2, ..., 0] += 0.5
-            positions[:, 1::2, :, 2] += 2.0 / 3
-#            positions[-2::-2, ..., 0] += 0.5
-#            positions[:, ::2, :, 2] += 2.0 / 3
+#            positions[1::2, ..., 0] += 0.5
+#            positions[:, 1::2, :, 2] += 2.0 / 3
+            positions[-2::-2, ..., 0] += 0.5
+            positions[:, ::2, :, 2] += 2.0 / 3
         elif surf == 'bcc110':
             cell = (1.0, sqrt(0.5), sqrt(0.5))
             if orthogonal:

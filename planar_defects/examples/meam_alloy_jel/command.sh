@@ -50,8 +50,8 @@ for el in $els; do
         else
             r3a=$r3nsi
         fi
-        echo "surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3a $vac > results/log.$el.$str.$surf.$r1.$r2a.$r3a.$vac"
-        surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3a $vac > results/log.$el.$str.$surf.$r1.$r2a.$r3a.$vac
+        echo "surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3a $vac > results/$el.$str.$surf.$r1.$r2a.$r3a.$vac"
+        surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3a $vac > results/$el.$str.$surf.$r1.$r2a.$r3a.$vac
 
     done
 

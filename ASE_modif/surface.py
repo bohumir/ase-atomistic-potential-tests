@@ -268,12 +268,12 @@ def surface(symbol, structure, face, size, a, c, vacuum, orthogonal=True):
         elif surf == 'diamond111':
             cell = (sqrt(0.5), sqrt(0.375), 1 / sqrt(3) / 2)
             assert not orthogonal
-            positions[-1::-6, ..., :3] += (0.0, 0.0, 0.5)
-            positions[-2::-6, ..., :2] += (0.0, 0.0)
-            positions[-3::-6, ..., :3] += (-1.0 / 3, 2.0 / 3, 0.5)
-            positions[-4::-6, ..., :2] += (-1.0 / 3, 2.0 / 3)
-            positions[-5::-6, ..., :3] += (1.0 / 3, 1.0 / 3, 0.5)
-            positions[-6::-6, ..., :2] += (1.0 / 3, 1.0 / 3)
+            positions[-1::-6, ..., :2] += (0.0, 0.0)
+            positions[-2::-6, ..., :3] += (-1.0 / 3, 2.0 / 3, 0.5)
+            positions[-3::-6, ..., :2] += (-1.0 / 3, 2.0 / 3)
+            positions[-4::-6, ..., :3] += (1.0 / 3, 1.0 / 3, 0.5)
+            positions[-5::-6, ..., :2] += (1.0 / 3, 1.0 / 3)
+            positions[-6::-6, ..., :3] += (0.0, 0.0, 0.5)
         elif surf == 'hcp0001':
             cell = (1.0, sqrt(0.75), 0.5 * c / a)
             if orthogonal:

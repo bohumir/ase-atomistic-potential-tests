@@ -2,7 +2,7 @@ PATH=$PATH:../..
 PYTHONPATH=$PYTHONPATH:.
 
 els="Al Si Mg Cu Fe"
-r1="1"; r2nm="1"; r2m="2"; r3="7"; 
+r1="1"; r2nm="1"; r2m="2"; r3nsi="7"; r3si="8" 
 vac="4"
 
 for el in $els; do
@@ -45,7 +45,14 @@ for el in $els; do
         else
             r2a=$r2nm
         fi
-        surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3 $vac > results/log.$el.$str.$surf.$r1.$r2a.$r3.$vac
+        if [ "$el" == "Si" ] && [ "$surf" == "111" ] ; then
+            r3a=$r3si
+        else
+            r3a=$r3nsi
+        fi
+        echo "surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3a $vac > results/log.$el.$str.$surf.$r1.$r2a.$r3a.$vac"
+        surf.py $el $str $lp $ecoh $surf $r1 $r2a $r3a $vac > results/log.$el.$str.$surf.$r1.$r2a.$r3a.$vac
+
     done
 
 done

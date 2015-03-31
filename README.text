@@ -1,19 +1,21 @@
-You need to install
+Prerequisites:
   ASE (https://wiki.fysik.dtu.dk/ase/)
   LAMMPS 1Jul11 or later, with MEAM package
 
-For ASE to find LAMMPS, you need to export LAMMPS_COMMAND variable, follow
-  https://wiki.fysik.dtu.dk/ase/ase/calculators/lammps.html
+Setup:
+1) Export LAMMPS_COMMAND variable, following
+    https://wiki.fysik.dtu.dk/ase/ase/calculators/lammps.html
+2) Overwrite two files in ASE:
+    ase/calculators/lammps.py
+    ase/lattice/surface.py
+   by two files included here:
+     ASE_modif/lammps.py
+     ASE_modif/surface.py
 
-You also need to overwrite two ASE files
-  ase/calculators/lammps.py
-  ase/lattice/surface.py
-by
-  ASE_modif/lammps.py
-  ASE_modif/surface.py
-provided here.
-
-Then change to any example subdirectory and run
-  ./command.sh
-
-Improvements and additions are always welcome.
+Execution:
+  Change directory to any example subdirectory and execute the "command.sh" script therein:
+    cd elastic_const/examples/meam_alloy_jel/
+    ./command.sh
+  Expected results are in the results/ subdirectory. For the elastic constants, all are obtained by
+    elastic_const/elast.py
+  script.

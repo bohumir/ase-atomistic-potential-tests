@@ -19,3 +19,6 @@ Execution:
   Expected results are in the results/ subdirectory. For the elastic constants, all are obtained by
     elastic_const/elast.py
   script.
+
+Reference:
+  http://dx.doi.org/10.1088/1742-6596/402/1/012006

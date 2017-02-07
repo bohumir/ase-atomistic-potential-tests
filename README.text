@@ -20,5 +20,6 @@ Execution:
     elastic_const/elast.py
   script.
 
-Reference:
+References:
   http://dx.doi.org/10.1088/1742-6596/402/1/012006
+  http://dx.doi.org/10.1103/PhysRevB.85.245102

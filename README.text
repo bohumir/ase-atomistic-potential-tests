@@ -21,5 +21,7 @@ Execution:
   script.
 
 References:
+  B. Jelinek, S. Groh, M. F. Horstemeyer, J. Houze, S. G. Kim, G. J. Wagner, A. Moitra, and M. I. Baskes:
+    Modified embedded atom method potential for Al, Si, Mg, Cu, and Fe alloys
   http://dx.doi.org/10.1088/1742-6596/402/1/012006
   http://dx.doi.org/10.1103/PhysRevB.85.245102
